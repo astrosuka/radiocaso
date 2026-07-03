@@ -1,10 +1,23 @@
-import { client } from "@/sanity/client";
-import { INFO_GENERAL_QUERY } from "@/sanity/queries/infoGeneral";
+import { getGeneralInfo } from "@/sanity/queries/infoGeneral";
 import { getNowPlaying } from "@/radiojar/queries/nowPlaying";
+import { Suspense } from "react";
+
+async function NowPlaying() {
+  const nowPlaying = await getNowPlaying();
+  return (
+    <>
+      <span>{nowPlaying.title}</span>
+      <span> de {nowPlaying.artist}</span>
+    </>
+  );
+}
+
+function NowPlayingSkeleton() {
+  return <div className="h-6 w-md rounded bg-gray-500/10"></div>;
+}
 
 export default async function Home() {
-  const data = await client.fetch(INFO_GENERAL_QUERY);
-  const nowPlaying = await getNowPlaying();
+  const data = await getGeneralInfo();
 
   return (
     <main className="flex flex-col gap-2">
@@ -12,8 +25,9 @@ export default async function Home() {
         <h2 className="text-xs font-black text-gray-500 uppercase">
           sonando ahora:
         </h2>
-        <span>{nowPlaying.title}</span>
-        <span> de {nowPlaying.artist}</span>
+        <Suspense fallback={<NowPlayingSkeleton />}>
+          <NowPlaying />
+        </Suspense>
       </section>
 
       <section>

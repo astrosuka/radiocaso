@@ -1,8 +1,7 @@
-import { client } from "@/sanity/client";
-import { PUBLICACIONES_QUERY } from "@/sanity/queries/publicaciones";
+import { getPublicaciones } from "@/sanity/queries/publicaciones";
 
 export default async function Publicaciones() {
-  const data = await client.fetch(PUBLICACIONES_QUERY);
+  const data = await getPublicaciones();
 
   return (
     <main>

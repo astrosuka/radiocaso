@@ -1,6 +1,8 @@
+import { cacheLife, cacheTag } from "next/cache";
 import { defineQuery } from "next-sanity";
+import { client } from "@/sanity/client";
 
-export const TRANSMISIONES_QUERY = defineQuery(
+const TRANSMISIONES_QUERY = defineQuery(
   `*[_type == "transmision"] | order(fecha desc){
     _id,
     titulo,
@@ -18,3 +20,11 @@ export const TRANSMISIONES_QUERY = defineQuery(
     descripcionCorta,
   }`
 );
+
+export async function getTransmisiones() {
+  "use cache";
+  cacheLife("max");
+  cacheTag("transmision");
+  cacheTag("sanity");
+  return client.fetch(TRANSMISIONES_QUERY);
+}

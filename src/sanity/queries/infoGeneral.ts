@@ -1,6 +1,8 @@
+import { cacheLife, cacheTag } from "next/cache";
 import { defineQuery } from "next-sanity";
+import { client } from "@/sanity/client";
 
-export const INFO_GENERAL_QUERY = defineQuery(
+const INFO_GENERAL_QUERY = defineQuery(
   `*[_type == "infoGeneral"][0]{
     titulo,
     destacados[]->{...},
@@ -13,3 +15,11 @@ export const INFO_GENERAL_QUERY = defineQuery(
     schedule,
   }`
 );
+
+export async function getGeneralInfo() {
+  "use cache";
+  cacheLife("max");
+  cacheTag("infoGeneral");
+  cacheTag("sanity");
+  return client.fetch(INFO_GENERAL_QUERY);
+}

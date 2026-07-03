@@ -1,9 +1,8 @@
-import { client } from "@/sanity/client";
-import { INFO_GENERAL_QUERY } from "@/sanity/queries/infoGeneral";
+import { getGeneralInfo } from "@/sanity/queries/infoGeneral";
 import { PortableText } from "next-sanity";
 
 export default async function Info() {
-  const data = await client.fetch(INFO_GENERAL_QUERY);
+  const data = await getGeneralInfo();
 
   return (
     <main className="flex flex-col gap-2">

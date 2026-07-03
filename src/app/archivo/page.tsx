@@ -1,8 +1,7 @@
-import { client } from "@/sanity/client";
-import { TRANSMISIONES_QUERY } from "@/sanity/queries/transmisiones";
+import { getTransmisiones } from "@/sanity/queries/transmisiones";
 
 export default async function Archivo() {
-  const data = await client.fetch(TRANSMISIONES_QUERY);
+  const data = await getTransmisiones();
 
   return (
     <main>
