@@ -28,3 +28,30 @@ export async function getTransmisiones() {
   cacheTag("sanity");
   return client.fetch(TRANSMISIONES_QUERY);
 }
+
+const ULTIMAS_TRANSMISIONES_QUERY = defineQuery(
+  `*[_type == "transmision"] | order(fecha desc)[0...10]{
+    _id,
+    titulo,
+    fecha,
+    tipoDeTransmision[]->{
+      _id,
+      tipoDeTransmision
+    },
+    programa->{
+      _id,
+      titulo},
+    contexto->{
+      _id,
+      titulo},
+    descripcionCorta,
+  }`
+);
+
+export async function getUltimasTransmisiones() {
+  "use cache";
+  cacheLife("max");
+  cacheTag("transmision");
+  cacheTag("sanity");
+  return client.fetch(ULTIMAS_TRANSMISIONES_QUERY);
+}

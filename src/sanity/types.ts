@@ -717,6 +717,28 @@ export type TRANSMISIONES_QUERY_RESULT = Array<{
   descripcionCorta: string | null;
 }>;
 
+// Source: ../radiocaso/src/sanity/queries/transmisiones.ts
+// Variable: ULTIMAS_TRANSMISIONES_QUERY
+// Query: *[_type == "transmision"] | order(fecha desc)[0...10]{    _id,    titulo,    fecha,    tipoDeTransmision[]->{      _id,      tipoDeTransmision    },    programa->{      _id,      titulo},    contexto->{      _id,      titulo},    descripcionCorta,  }
+export type ULTIMAS_TRANSMISIONES_QUERY_RESULT = Array<{
+  _id: string;
+  titulo: string | null;
+  fecha: string | null;
+  tipoDeTransmision: Array<{
+    _id: string;
+    tipoDeTransmision: string | null;
+  }> | null;
+  programa: {
+    _id: string;
+    titulo: string | null;
+  } | null;
+  contexto: {
+    _id: string;
+    titulo: string | null;
+  } | null;
+  descripcionCorta: string | null;
+}>;
+
 // Query TypeMap
 import "@sanity/client";
 declare module "@sanity/client" {
@@ -724,6 +746,7 @@ declare module "@sanity/client" {
     "*[_type == \"infoGeneral\"][0]{\n    titulo,\n    destacados[]->{...},\n    descripcion,\n    contacto,\n    redesSociales,\n    configuracionDeTransmision,\n    nowPlaying,\n    mensajeGenericoDeTransmision,\n    schedule,\n  }": INFO_GENERAL_QUERY_RESULT;
     "*[_type == \"publicacion\"] | order(fecha desc){\n    _id,\n    titulo,\n    slug,\n    fecha,\n    tipo[]->{...},\n    serie,\n    descripcion,\n    recursos,\n    creditos,\n  }": PUBLICACIONES_QUERY_RESULT;
     "*[_type == \"transmision\"] | order(fecha desc){\n    _id,\n    titulo,\n    fecha,\n    tipoDeTransmision[]->{\n      _id,\n      tipoDeTransmision\n    },\n    programa->{\n      _id,\n      titulo},\n    contexto->{\n      _id,\n      titulo},\n    descripcionCorta,\n  }": TRANSMISIONES_QUERY_RESULT;
+    "*[_type == \"transmision\"] | order(fecha desc)[0...10]{\n    _id,\n    titulo,\n    fecha,\n    tipoDeTransmision[]->{\n      _id,\n      tipoDeTransmision\n    },\n    programa->{\n      _id,\n      titulo},\n    contexto->{\n      _id,\n      titulo},\n    descripcionCorta,\n  }": ULTIMAS_TRANSMISIONES_QUERY_RESULT;
   }
 }
 
