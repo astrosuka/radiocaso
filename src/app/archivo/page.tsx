@@ -1,3 +1,4 @@
+import TransmissionsListItem from "@/components/TransmissionsListItem";
 import { getTransmisiones } from "@/sanity/queries/transmisiones";
 
 export default async function Archivo() {
@@ -10,7 +11,9 @@ export default async function Archivo() {
       </h2>
       <ul>
         {data?.map((item) => (
-          <li key={item._id}>{item.titulo}</li>
+          <li key={item._id}>
+            <TransmissionsListItem transmission={item} />
+          </li>
         ))}
       </ul>
     </main>
