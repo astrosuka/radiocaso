@@ -1,3 +1,4 @@
+import Badge from "@/components/ui/Badge";
 import { getPublicaciones } from "@/sanity/queries/publicaciones";
 
 export default async function Publicaciones() {
@@ -19,12 +20,7 @@ export default async function Publicaciones() {
               <div className="flex gap-1">
                 {item?.tipo?.length
                   ? item.tipo.map((tipo) => (
-                      <span
-                        key={tipo._id}
-                        className="rounded border border-gray-700 px-1 text-xs text-gray-200 lowercase"
-                      >
-                        {tipo.tipoDePublicacion}
-                      </span>
+                      <Badge key={tipo._id}>{tipo.tipoDePublicacion}</Badge>
                     ))
                   : "-"}
               </div>

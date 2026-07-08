@@ -1,3 +1,4 @@
+import Badge from "@/components/ui/Badge";
 import { getGeneralInfo } from "@/sanity/queries/infoGeneral";
 
 export default async function Home() {
@@ -18,9 +19,7 @@ export default async function Home() {
               <span>{item.titulo}</span>
               <span className="ml-2 text-xs text-gray-500">{item.fecha}</span>
             </div>
-            <span className="rounded border border-gray-700 px-1 text-xs text-gray-200 lowercase">
-              {item._type}
-            </span>
+            <Badge>{item._type}</Badge>
           </div>
         ))}
       </section>
