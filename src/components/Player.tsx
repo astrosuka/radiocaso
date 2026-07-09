@@ -13,10 +13,7 @@ function NowPlayingSkeleton() {
 
 export default function Player() {
   return (
-    <div className="bg-foreground text-background fixed bottom-0 left-0 flex h-12 w-full items-center justify-center gap-2">
-      <h2 className="text-xs font-black text-gray-500 uppercase">
-        suena ahora:
-      </h2>
+    <div className="bg-foreground text-background flex w-full items-center justify-center gap-2">
       <Suspense fallback={<NowPlayingSkeleton />}>
         <NowPlayingLoader />
       </Suspense>

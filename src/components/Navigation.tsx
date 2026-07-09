@@ -9,27 +9,30 @@ export default function Navigation() {
   const pathname = usePathname();
 
   return (
-    <nav className="flex items-center gap-2 font-mono">
-      <Link href="/" className="mr-2 text-2xl font-black">
+    <header className="bg-background flex w-full items-center justify-between border-b p-px">
+      <Link href="/" className="mr-2 text-9xl font-black">
         RADIO CASo
       </Link>
-      {navItems.map((item) => {
-        const isActive = pathname.endsWith(`/${item}`);
-        const baseClasses = "uppercase";
-        return (
-          <Link
-            key={item}
-            href={item}
-            className={
-              isActive
-                ? baseClasses + " bg-foreground text-background"
-                : baseClasses
-            }
-          >
-            <span>{item}</span>
-          </Link>
-        );
-      })}
-    </nav>
+      <nav className="flex gap-2 font-mono">
+        {navItems.map((item) => {
+          const isActive = pathname.endsWith(`/${item}`);
+          const baseClasses =
+            "uppercase border rounded-full text-xs size-27.25 flex items-center justify-center";
+          return (
+            <Link
+              key={item}
+              href={item}
+              className={
+                isActive
+                  ? baseClasses + " bg-foreground text-background"
+                  : baseClasses
+              }
+            >
+              <span>{item}</span>
+            </Link>
+          );
+        })}
+      </nav>
+    </header>
   );
 }

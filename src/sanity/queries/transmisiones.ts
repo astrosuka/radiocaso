@@ -55,3 +55,18 @@ export async function getUltimasTransmisiones() {
   cacheTag("sanity");
   return client.fetch(ULTIMAS_TRANSMISIONES_QUERY);
 }
+
+const TIPOS_DE_TRANSMISION_QUERY = defineQuery(
+  `*[_type == "tipoDeTransmision"] {
+    _id,
+    tipoDeTransmision
+  }`
+);
+
+export async function getTiposDeTransmision() {
+  "use cache";
+  cacheLife("max");
+  cacheTag("tipoDeTransmision");
+  cacheTag("sanity");
+  return client.fetch(TIPOS_DE_TRANSMISION_QUERY);
+}

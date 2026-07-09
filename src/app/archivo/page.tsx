@@ -1,21 +1,79 @@
 import TransmissionsListItem from "@/components/TransmissionsListItem";
-import { getTransmisiones } from "@/sanity/queries/transmisiones";
+import Badge from "@/components/ui/Badge";
+import { getContextos, getTiposDeContexto } from "@/sanity/queries/contextos";
+import { getProgramas } from "@/sanity/queries/programas";
+import { getTags } from "@/sanity/queries/tags";
+import {
+  getTiposDeTransmision,
+  getTransmisiones,
+} from "@/sanity/queries/transmisiones";
 
 export default async function Archivo() {
-  const data = await getTransmisiones();
+  const [
+    tags,
+    tiposDeContexto,
+    contextos,
+    programas,
+    tiposDeTransmision,
+    transmisiones,
+  ] = await Promise.all([
+    getTags(),
+    getTiposDeContexto(),
+    getContextos(),
+    getProgramas(),
+    getTiposDeTransmision(),
+    getTransmisiones(),
+  ]);
 
   return (
-    <main>
-      <h2 className="text-xs font-black text-gray-500 uppercase">
-        transmisiones:
-      </h2>
-      <ul>
-        {data?.map((item) => (
-          <li key={item._id}>
-            <TransmissionsListItem transmission={item} />
-          </li>
-        ))}
-      </ul>
-    </main>
+    <>
+      <section className="border-b px-6 py-6">
+        <div className="flex flex-wrap gap-2">
+          {tags.map((t) => (
+            <Badge key={t._id}>{t.tag}</Badge>
+          ))}
+        </div>
+      </section>
+
+      <section className="border-b px-6 py-6">
+        <ul className="flex flex-wrap gap-2 pb-6">
+          {tiposDeContexto.map((t) => (
+            <li key={t._id}>
+              <Badge>{t.tipoDeContexto}</Badge>
+            </li>
+          ))}
+        </ul>
+        <ul className="flex flex-wrap gap-2">
+          {contextos.map((c) => (
+            <li key={c._id}>{c.titulo} [ ]</li>
+          ))}
+        </ul>
+      </section>
+
+      <section className="border-b px-6 py-6">
+        <ul className="flex flex-wrap gap-2">
+          {programas.map((p) => (
+            <li key={p._id}>{p.titulo} [ ]</li>
+          ))}
+        </ul>
+      </section>
+
+      <section className="py-6">
+        <ul className="flex flex-wrap gap-2 px-6 pb-6">
+          {tiposDeTransmision.map((t) => (
+            <li key={t._id}>
+              <Badge>{t.tipoDeTransmision}</Badge>
+            </li>
+          ))}
+        </ul>
+        <ul>
+          {transmisiones?.map((t) => (
+            <li key={t._id}>
+              <TransmissionsListItem transmission={t} />
+            </li>
+          ))}
+        </ul>
+      </section>
+    </>
   );
 }

@@ -15,7 +15,7 @@ export default function TransmissionsListItem({
   transmission: Transmission;
 }) {
   return (
-    <div className="border-b-foreground/20 mb-3 grid w-full grid-cols-1 items-center gap-2 border-b pb-2 md:grid-cols-[auto_2fr_2fr_1fr]">
+    <div className="border-b-foreground/20 mb-3 grid w-full grid-cols-1 items-start gap-2 border-b px-6 pb-2 md:grid-cols-[auto_2fr_2fr_1fr]">
       <span className="w-16">
         {transmission.fecha && <DateBadge date={transmission.fecha} />}
       </span>

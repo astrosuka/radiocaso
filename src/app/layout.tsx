@@ -30,10 +30,16 @@ export default function RootLayout({
       lang="es"
       className={`${geistSans.variable} ${jetBrainsMono.variable} h-full antialiased`}
     >
-      <body className="flex min-h-full flex-col px-4 py-8">
-        <Navigation />
-        <div className="mt-2 pb-16">{children}</div>
-        <Player />
+      <body className="flex h-dvh flex-col">
+        <div className="fixed top-0 right-0 left-0 flex h-28">
+          <Navigation />
+        </div>
+        <div className="fixed top-28 right-0 bottom-16 left-0 flex flex-col">
+          {children}
+        </div>
+        <div className="fixed right-0 bottom-0 left-0 flex h-16">
+          <Player />
+        </div>
       </body>
     </html>
   );

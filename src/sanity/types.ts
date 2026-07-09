@@ -537,6 +537,66 @@ export type Geopoint = {
 
 export type AllSanitySchemaTypes = TipoDeGrupo | TipoDePublicacion | SanityImageAssetReference | TransmisionReference | ProgramaReference | ContextoReference | InfoGeneral | BlockContent | SanityImageCrop | SanityImageHotspot | TipoDePublicacionReference | SerieDePublicacionesReference | SanityFileAssetReference | PersonaReference | GrupoReference | Publicacion | SerieDePublicaciones | Slug | TipoDeTransmisionReference | EspacioReference | TagReference | Transmision | Espacio | Tag | Programa | TipoDeContextoReference | Contexto | TipoDeTransmision | TipoDeContexto | TipoDeGrupoReference | Grupo | Persona | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageMetadata | SanityFileAsset | SanityAssetSourceData | SanityImageAsset | Geopoint;
 
+// Source: ../radiocaso/src/sanity/queries/contextos.ts
+// Variable: CONTEXTOS_QUERY
+// Query: *[_type == "contexto"] {    _id,    titulo,    slug,    contexto,    fecha,    fechaFinal,    descripcion,    tiposDeContexto,    imagen,    produccion,    tags,  }
+export type CONTEXTOS_QUERY_RESULT = Array<{
+  _id: string;
+  titulo: string | null;
+  slug: Slug | null;
+  contexto: null;
+  fecha: string | null;
+  fechaFinal: string | null;
+  descripcion: BlockContent | null;
+  tiposDeContexto: Array<{
+    _key: string;
+  } & TipoDeContextoReference> | null;
+  imagen: {
+    url?: string;
+    archivo?: {
+      asset?: SanityFileAssetReference;
+      media?: unknown;
+      _type: "file";
+    };
+  } | null;
+  produccion: ArrayOf<GrupoReference | PersonaReference> | null;
+  tags: Array<{
+    _key: string;
+  } & TagReference> | null;
+}>;
+
+// Source: ../radiocaso/src/sanity/queries/contextos.ts
+// Variable: TIPOS_DE_CONTEXTO_QUERY
+// Query: *[_type == "tipoDeContexto"] {    _id,    tipoDeContexto  }
+export type TIPOS_DE_CONTEXTO_QUERY_RESULT = Array<{
+  _id: string;
+  tipoDeContexto: string | null;
+}>;
+
+// Source: ../radiocaso/src/sanity/queries/espacios.ts
+// Variable: ESPACIOS_QUERY
+// Query: *[_type == "espacio"] | order(nombre asc) {    _id,    nombre,    slug,  }
+export type ESPACIOS_QUERY_RESULT = Array<{
+  _id: string;
+  nombre: string | null;
+  slug: Slug | null;
+}>;
+
+// Source: ../radiocaso/src/sanity/queries/grupos.ts
+// Variable: GRUPOS_QUERY
+// Query: *[_type == "grupo"] | order(nombre asc) {    _id,    nombre,    slug,    integrantes,    tipoDeGrupo  }
+export type GRUPOS_QUERY_RESULT = Array<{
+  _id: string;
+  nombre: string | null;
+  slug: Slug | null;
+  integrantes: Array<{
+    _key: string;
+  } & PersonaReference> | null;
+  tipoDeGrupo: Array<{
+    _key: string;
+  } & TipoDeGrupoReference> | null;
+}>;
+
 // Source: ../radiocaso/src/sanity/queries/infoGeneral.ts
 // Variable: INFO_GENERAL_QUERY
 // Query: *[_type == "infoGeneral"][0]{    titulo,    destacados[]->{...},    descripcion,    contacto,    redesSociales,    configuracionDeTransmision,    nowPlaying,    mensajeGenericoDeTransmision,    schedule,  }
@@ -664,6 +724,42 @@ export type INFO_GENERAL_QUERY_RESULT = {
   schedule: string | null;
 } | null;
 
+// Source: ../radiocaso/src/sanity/queries/personas.ts
+// Variable: PERSONAS_QUERY
+// Query: *[_type == "persona"] | order(nombre asc) {    _id,    nombre,    slug,  }
+export type PERSONAS_QUERY_RESULT = Array<{
+  _id: string;
+  nombre: string | null;
+  slug: Slug | null;
+}>;
+
+// Source: ../radiocaso/src/sanity/queries/programas.ts
+// Variable: PROGRAMAS_QUERY
+// Query: *[_type == "programa"] {    _id,    titulo,    slug,    contexto,    fecha,    descripcion,    descripcionCorta,    imagen,    coproduccion,    tags,  }
+export type PROGRAMAS_QUERY_RESULT = Array<{
+  _id: string;
+  titulo: string | null;
+  slug: Slug | null;
+  contexto: ContextoReference | null;
+  fecha: string | null;
+  descripcion: BlockContent | null;
+  descripcionCorta: string | null;
+  imagen: {
+    url?: string;
+    archivo?: {
+      asset?: SanityImageAssetReference;
+      media?: unknown;
+      hotspot?: SanityImageHotspot;
+      crop?: SanityImageCrop;
+      _type: "image";
+    };
+  } | null;
+  coproduccion: ArrayOf<GrupoReference | PersonaReference> | null;
+  tags: Array<{
+    _key: string;
+  } & TagReference> | null;
+}>;
+
 // Source: ../radiocaso/src/sanity/queries/publicaciones.ts
 // Variable: PUBLICACIONES_QUERY
 // Query: *[_type == "publicacion"] | order(fecha desc){    _id,    titulo,    slug,    fecha,    tipo[]->{...},    serie,    descripcion,    recursos,    creditos,  }
@@ -693,6 +789,14 @@ export type PUBLICACIONES_QUERY_RESULT = Array<{
     _key: string;
   }> | null;
   creditos: ArrayOf<GrupoReference | PersonaReference> | null;
+}>;
+
+// Source: ../radiocaso/src/sanity/queries/tags.ts
+// Variable: TAGS_QUERY
+// Query: *[_type == "tag"]{    _id,    tag,  }
+export type TAGS_QUERY_RESULT = Array<{
+  _id: string;
+  tag: string | null;
 }>;
 
 // Source: ../radiocaso/src/sanity/queries/transmisiones.ts
@@ -739,14 +843,30 @@ export type ULTIMAS_TRANSMISIONES_QUERY_RESULT = Array<{
   descripcionCorta: string | null;
 }>;
 
+// Source: ../radiocaso/src/sanity/queries/transmisiones.ts
+// Variable: TIPOS_DE_TRANSMISION_QUERY
+// Query: *[_type == "tipoDeTransmision"] {    _id,    tipoDeTransmision  }
+export type TIPOS_DE_TRANSMISION_QUERY_RESULT = Array<{
+  _id: string;
+  tipoDeTransmision: string | null;
+}>;
+
 // Query TypeMap
 import "@sanity/client";
 declare module "@sanity/client" {
   interface SanityQueries {
+    "*[_type == \"contexto\"] {\n    _id,\n    titulo,\n    slug,\n    contexto,\n    fecha,\n    fechaFinal,\n    descripcion,\n    tiposDeContexto,\n    imagen,\n    produccion,\n    tags,\n  }": CONTEXTOS_QUERY_RESULT;
+    "*[_type == \"tipoDeContexto\"] {\n    _id,\n    tipoDeContexto\n  }": TIPOS_DE_CONTEXTO_QUERY_RESULT;
+    "*[_type == \"espacio\"] | order(nombre asc) {\n    _id,\n    nombre,\n    slug,\n  }": ESPACIOS_QUERY_RESULT;
+    "*[_type == \"grupo\"] | order(nombre asc) {\n    _id,\n    nombre,\n    slug,\n    integrantes,\n    tipoDeGrupo\n  }": GRUPOS_QUERY_RESULT;
     "*[_type == \"infoGeneral\"][0]{\n    titulo,\n    destacados[]->{...},\n    descripcion,\n    contacto,\n    redesSociales,\n    configuracionDeTransmision,\n    nowPlaying,\n    mensajeGenericoDeTransmision,\n    schedule,\n  }": INFO_GENERAL_QUERY_RESULT;
+    "*[_type == \"persona\"] | order(nombre asc) {\n    _id,\n    nombre,\n    slug,\n  }": PERSONAS_QUERY_RESULT;
+    "*[_type == \"programa\"] {\n    _id,\n    titulo,\n    slug,\n    contexto,\n    fecha,\n    descripcion,\n    descripcionCorta,\n    imagen,\n    coproduccion,\n    tags,\n  }": PROGRAMAS_QUERY_RESULT;
     "*[_type == \"publicacion\"] | order(fecha desc){\n    _id,\n    titulo,\n    slug,\n    fecha,\n    tipo[]->{...},\n    serie,\n    descripcion,\n    recursos,\n    creditos,\n  }": PUBLICACIONES_QUERY_RESULT;
+    "*[_type == \"tag\"]{\n    _id,\n    tag,\n  }": TAGS_QUERY_RESULT;
     "*[_type == \"transmision\"] | order(fecha desc){\n    _id,\n    titulo,\n    fecha,\n    tipoDeTransmision[]->{\n      _id,\n      tipoDeTransmision\n    },\n    programa->{\n      _id,\n      titulo},\n    contexto->{\n      _id,\n      titulo},\n    descripcionCorta,\n  }": TRANSMISIONES_QUERY_RESULT;
     "*[_type == \"transmision\"] | order(fecha desc)[0...10]{\n    _id,\n    titulo,\n    fecha,\n    tipoDeTransmision[]->{\n      _id,\n      tipoDeTransmision\n    },\n    programa->{\n      _id,\n      titulo},\n    contexto->{\n      _id,\n      titulo},\n    descripcionCorta,\n  }": ULTIMAS_TRANSMISIONES_QUERY_RESULT;
+    "*[_type == \"tipoDeTransmision\"] {\n    _id,\n    tipoDeTransmision\n  }": TIPOS_DE_TRANSMISION_QUERY_RESULT;
   }
 }
 

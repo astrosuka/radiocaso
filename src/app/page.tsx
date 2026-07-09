@@ -11,7 +11,7 @@ export default async function Home() {
   const transmisiones = await getUltimasTransmisiones();
 
   return (
-    <main className="flex flex-col gap-2">
+    <main className="flex flex-1 flex-col gap-2 overflow-y-scroll">
       <section>
         <SectionTitle>Destacados</SectionTitle>
         {data?.destacados?.map((item) => (

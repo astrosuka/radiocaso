@@ -24,8 +24,8 @@ export default function NowPlaying({
 
   return (
     <div>
-      <span>{nowPlaying.title}</span>
-      <span> de {nowPlaying.artist}</span>
+      {nowPlaying.artist && <span>{nowPlaying.artist} - </span>}
+      {nowPlaying.title && <span>{nowPlaying.title}</span>}
     </div>
   );
 }
