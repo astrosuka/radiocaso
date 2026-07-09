@@ -10,14 +10,17 @@ export default function Navigation() {
 
   return (
     <header className="bg-background flex w-full items-center justify-between border-b p-px">
-      <Link href="/" className="mr-2 text-9xl font-black">
+      <Link
+        href="/"
+        className="mr-2 text-[6vw] font-extrabold md:text-[7vw] lg:text-[8vw]"
+      >
         RADIO CASo
       </Link>
       <nav className="font-ibm flex gap-2">
         {navItems.map((item) => {
           const isActive = pathname.endsWith(`/${item}`);
           const baseClasses =
-            "uppercase border rounded-full text-sm size-27.25 flex items-center justify-center";
+            "uppercase border rounded-full size-24 text-xs lg:text-sm lg:size-27.25 flex items-center justify-center";
           return (
             <Link
               key={item}
