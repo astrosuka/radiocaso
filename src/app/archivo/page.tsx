@@ -39,21 +39,25 @@ export default async function Archivo() {
         <ul className="flex flex-wrap gap-2 pb-6">
           {tiposDeContexto.map((t) => (
             <li key={t._id}>
-              <Badge>{t.tipoDeContexto}</Badge>
+              <Badge variant="context">{t.tipoDeContexto}</Badge>
             </li>
           ))}
         </ul>
-        <ul className="flex flex-wrap gap-2">
+        <ul className="font-ibm flex flex-wrap gap-2">
           {contextos.map((c) => (
-            <li key={c._id}>{c.titulo} [ ]</li>
+            <li key={c._id} className="mr-6">
+              [ ] {c.titulo}
+            </li>
           ))}
         </ul>
       </section>
 
-      <section className="border-b px-6 py-6">
+      <section className="font-ibm border-b px-6 py-6">
         <ul className="flex flex-wrap gap-2">
           {programas.map((p) => (
-            <li key={p._id}>{p.titulo} [ ]</li>
+            <li key={p._id} className="mr-6">
+              [ ] {p.titulo}
+            </li>
           ))}
         </ul>
       </section>
@@ -62,7 +66,7 @@ export default async function Archivo() {
         <ul className="flex flex-wrap gap-2 px-6 pb-6">
           {tiposDeTransmision.map((t) => (
             <li key={t._id}>
-              <Badge>{t.tipoDeTransmision}</Badge>
+              <Badge variant="transmission">{t.tipoDeTransmision}</Badge>
             </li>
           ))}
         </ul>

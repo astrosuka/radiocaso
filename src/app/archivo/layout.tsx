@@ -19,14 +19,14 @@ export default async function ArchivoLayout({
         <input
           type="text"
           placeholder="Buscar..."
-          className="bg-foreground/10 w-full border"
+          className="bg-foreground/10 w-full border p-1"
         />
       </div>
       <div className="flex min-h-0 flex-1">
         <main className="flex flex-1 flex-col overflow-y-auto border-r">
           {children}
         </main>
-        <div className="flex h-full w-60 flex-col text-sm">
+        <div className="font-ibm flex h-full w-60 flex-col text-sm">
           <div className="flex h-[50%] flex-col border-b">
             <h2 className="border-b text-center">Personas</h2>
             <ul className="overflow-y-auto px-6">

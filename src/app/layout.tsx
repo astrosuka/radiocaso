@@ -1,17 +1,18 @@
 import type { Metadata } from "next";
-import { Geist, JetBrains_Mono } from "next/font/google";
+import { Archivo, IBM_Plex_Sans_Condensed } from "next/font/google";
 import "./globals.css";
 import Navigation from "@/components/Navigation";
 import Player from "@/components/Player";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const archivo = Archivo({
+  variable: "--font-archivo",
   subsets: ["latin"],
 });
 
-const jetBrainsMono = JetBrains_Mono({
-  variable: "--font-jet-brains-mono",
+const ibmPlexSansCondensed = IBM_Plex_Sans_Condensed({
+  variable: "--font-ibm-plex-sans-condensed",
   subsets: ["latin"],
+  weight: "400",
 });
 
 export const metadata: Metadata = {
@@ -28,16 +29,16 @@ export default function RootLayout({
   return (
     <html
       lang="es"
-      className={`${geistSans.variable} ${jetBrainsMono.variable} h-full antialiased`}
+      className={`${archivo.variable} ${ibmPlexSansCondensed.variable} h-full antialiased`}
     >
       <body className="flex h-dvh flex-col">
         <div className="fixed top-0 right-0 left-0 flex h-28">
           <Navigation />
         </div>
-        <div className="fixed top-28 right-0 bottom-16 left-0 flex flex-col">
+        <div className="fixed top-28 right-0 bottom-14 left-0 flex flex-col">
           {children}
         </div>
-        <div className="fixed right-0 bottom-0 left-0 flex h-16">
+        <div className="fixed right-0 bottom-0 left-0 flex h-14">
           <Player />
         </div>
       </body>

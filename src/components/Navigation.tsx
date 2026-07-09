@@ -13,11 +13,11 @@ export default function Navigation() {
       <Link href="/" className="mr-2 text-9xl font-black">
         RADIO CASo
       </Link>
-      <nav className="flex gap-2 font-mono">
+      <nav className="font-ibm flex gap-2">
         {navItems.map((item) => {
           const isActive = pathname.endsWith(`/${item}`);
           const baseClasses =
-            "uppercase border rounded-full text-xs size-27.25 flex items-center justify-center";
+            "uppercase border rounded-full text-sm size-27.25 flex items-center justify-center";
           return (
             <Link
               key={item}
