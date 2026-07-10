@@ -7,6 +7,7 @@ import {
   getTiposDeTransmision,
   getTransmisiones,
 } from "@/sanity/queries/transmisiones";
+import Link from "next/link";
 
 export default async function Archivo() {
   const [
@@ -46,7 +47,9 @@ export default async function Archivo() {
         <ul className="font-ibm flex flex-wrap gap-2">
           {contextos.map((c) => (
             <li key={c._id} className="mr-6">
-              [ ] {c.titulo}
+              <Link href={`/archivo/contexto/${c.slug?.current}`}>
+                {c.titulo}
+              </Link>
             </li>
           ))}
         </ul>
@@ -56,7 +59,9 @@ export default async function Archivo() {
         <ul className="flex flex-wrap gap-2">
           {programas.map((p) => (
             <li key={p._id} className="mr-6">
-              [ ] {p.titulo}
+              <Link href={`/archivo/programa/${p.slug?.current}`}>
+                {p.titulo}
+              </Link>
             </li>
           ))}
         </ul>

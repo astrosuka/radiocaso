@@ -7,12 +7,9 @@ const CONTEXTOS_QUERY = defineQuery(
     _id,
     titulo,
     slug,
-    contexto,
     fecha,
     fechaFinal,
-    descripcion,
     tiposDeContexto,
-    imagen,
     produccion,
     tags,
   }`
@@ -39,4 +36,27 @@ export async function getTiposDeContexto() {
   cacheTag("tipoDeContexto");
   cacheTag("sanity");
   return client.fetch(TIPOS_DE_CONTEXTO_QUERY);
+}
+
+const CONTEXTO_BY_SLUG_QUERY = defineQuery(
+  `*[_type == "contexto" && slug.current == $slug][0] {
+    _id,
+    titulo,
+    slug,
+    fecha,
+    fechaFinal,
+    descripcion,
+    tiposDeContexto,
+    imagen,
+    produccion[]->{_id, nombre},
+    tags,
+  }`
+);
+
+export async function getContextoBySlug(slug: string) {
+  "use cache";
+  cacheLife("max");
+  cacheTag("contexto");
+  cacheTag("sanity");
+  return client.fetch(CONTEXTO_BY_SLUG_QUERY, { slug });
 }

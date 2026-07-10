@@ -9,9 +9,7 @@ const PROGRAMAS_QUERY = defineQuery(
     slug,
     contexto,
     fecha,
-    descripcion,
     descripcionCorta,
-    imagen,
     coproduccion,
     tags,
   }`
@@ -23,4 +21,28 @@ export async function getProgramas() {
   cacheTag("programa");
   cacheTag("sanity");
   return client.fetch(PROGRAMAS_QUERY);
+}
+
+const PROGRAMA_BY_SLUG_QUERY = defineQuery(
+  `*[_type == "programa" && slug.current == $slug][0] {
+    _id,
+    titulo,
+    slug,
+    contexto,
+    fecha,
+    descripcion,
+    descripcionCorta,
+    tiposDeContexto,
+    imagen,
+    coproduccion[]->{_id, nombre},
+    tags,
+  }`
+);
+
+export async function getProgramaBySlug(slug: string) {
+  "use cache";
+  cacheLife("max");
+  cacheTag("programa");
+  cacheTag("sanity");
+  return client.fetch(PROGRAMA_BY_SLUG_QUERY, { slug });
 }

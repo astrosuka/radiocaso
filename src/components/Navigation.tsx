@@ -18,13 +18,14 @@ export default function Navigation() {
       </Link>
       <nav className="font-ibm flex gap-2">
         {navItems.map((item) => {
-          const isActive = pathname.endsWith(`/${item}`);
+          const isActive =
+            pathname === `/${item}` || pathname.startsWith(`/${item}/`);
           const baseClasses =
             "uppercase border rounded-full size-24 text-xs lg:text-sm lg:size-27.25 flex items-center justify-center";
           return (
             <Link
               key={item}
-              href={item}
+              href={`/${item}`}
               className={
                 isActive
                   ? baseClasses + " bg-foreground text-background"

@@ -539,12 +539,37 @@ export type AllSanitySchemaTypes = TipoDeGrupo | TipoDePublicacion | SanityImage
 
 // Source: ../radiocaso/src/sanity/queries/contextos.ts
 // Variable: CONTEXTOS_QUERY
-// Query: *[_type == "contexto"] {    _id,    titulo,    slug,    contexto,    fecha,    fechaFinal,    descripcion,    tiposDeContexto,    imagen,    produccion,    tags,  }
+// Query: *[_type == "contexto"] {    _id,    titulo,    slug,    fecha,    fechaFinal,    tiposDeContexto,    produccion,    tags,  }
 export type CONTEXTOS_QUERY_RESULT = Array<{
   _id: string;
   titulo: string | null;
   slug: Slug | null;
-  contexto: null;
+  fecha: string | null;
+  fechaFinal: string | null;
+  tiposDeContexto: Array<{
+    _key: string;
+  } & TipoDeContextoReference> | null;
+  produccion: ArrayOf<GrupoReference | PersonaReference> | null;
+  tags: Array<{
+    _key: string;
+  } & TagReference> | null;
+}>;
+
+// Source: ../radiocaso/src/sanity/queries/contextos.ts
+// Variable: TIPOS_DE_CONTEXTO_QUERY
+// Query: *[_type == "tipoDeContexto"] {    _id,    tipoDeContexto  }
+export type TIPOS_DE_CONTEXTO_QUERY_RESULT = Array<{
+  _id: string;
+  tipoDeContexto: string | null;
+}>;
+
+// Source: ../radiocaso/src/sanity/queries/contextos.ts
+// Variable: CONTEXTO_BY_SLUG_QUERY
+// Query: *[_type == "contexto" && slug.current == $slug][0] {    _id,    titulo,    slug,    fecha,    fechaFinal,    descripcion,    tiposDeContexto,    imagen,    produccion[]->{_id, nombre},    tags,  }
+export type CONTEXTO_BY_SLUG_QUERY_RESULT = {
+  _id: string;
+  titulo: string | null;
+  slug: Slug | null;
   fecha: string | null;
   fechaFinal: string | null;
   descripcion: BlockContent | null;
@@ -559,19 +584,14 @@ export type CONTEXTOS_QUERY_RESULT = Array<{
       _type: "file";
     };
   } | null;
-  produccion: ArrayOf<GrupoReference | PersonaReference> | null;
+  produccion: Array<{
+    _id: string;
+    nombre: string | null;
+  }> | null;
   tags: Array<{
     _key: string;
   } & TagReference> | null;
-}>;
-
-// Source: ../radiocaso/src/sanity/queries/contextos.ts
-// Variable: TIPOS_DE_CONTEXTO_QUERY
-// Query: *[_type == "tipoDeContexto"] {    _id,    tipoDeContexto  }
-export type TIPOS_DE_CONTEXTO_QUERY_RESULT = Array<{
-  _id: string;
-  tipoDeContexto: string | null;
-}>;
+} | null;
 
 // Source: ../radiocaso/src/sanity/queries/espacios.ts
 // Variable: ESPACIOS_QUERY
@@ -735,8 +755,24 @@ export type PERSONAS_QUERY_RESULT = Array<{
 
 // Source: ../radiocaso/src/sanity/queries/programas.ts
 // Variable: PROGRAMAS_QUERY
-// Query: *[_type == "programa"] {    _id,    titulo,    slug,    contexto,    fecha,    descripcion,    descripcionCorta,    imagen,    coproduccion,    tags,  }
+// Query: *[_type == "programa"] {    _id,    titulo,    slug,    contexto,    fecha,    descripcionCorta,    coproduccion,    tags,  }
 export type PROGRAMAS_QUERY_RESULT = Array<{
+  _id: string;
+  titulo: string | null;
+  slug: Slug | null;
+  contexto: ContextoReference | null;
+  fecha: string | null;
+  descripcionCorta: string | null;
+  coproduccion: ArrayOf<GrupoReference | PersonaReference> | null;
+  tags: Array<{
+    _key: string;
+  } & TagReference> | null;
+}>;
+
+// Source: ../radiocaso/src/sanity/queries/programas.ts
+// Variable: PROGRAMA_BY_SLUG_QUERY
+// Query: *[_type == "programa" && slug.current == $slug][0] {    _id,    titulo,    slug,    contexto,    fecha,    descripcion,    descripcionCorta,    tiposDeContexto,    imagen,    coproduccion[]->{_id, nombre},    tags,  }
+export type PROGRAMA_BY_SLUG_QUERY_RESULT = {
   _id: string;
   titulo: string | null;
   slug: Slug | null;
@@ -744,6 +780,7 @@ export type PROGRAMAS_QUERY_RESULT = Array<{
   fecha: string | null;
   descripcion: BlockContent | null;
   descripcionCorta: string | null;
+  tiposDeContexto: null;
   imagen: {
     url?: string;
     archivo?: {
@@ -754,11 +791,14 @@ export type PROGRAMAS_QUERY_RESULT = Array<{
       _type: "image";
     };
   } | null;
-  coproduccion: ArrayOf<GrupoReference | PersonaReference> | null;
+  coproduccion: Array<{
+    _id: string;
+    nombre: string | null;
+  }> | null;
   tags: Array<{
     _key: string;
   } & TagReference> | null;
-}>;
+} | null;
 
 // Source: ../radiocaso/src/sanity/queries/publicaciones.ts
 // Variable: PUBLICACIONES_QUERY
@@ -855,13 +895,15 @@ export type TIPOS_DE_TRANSMISION_QUERY_RESULT = Array<{
 import "@sanity/client";
 declare module "@sanity/client" {
   interface SanityQueries {
-    "*[_type == \"contexto\"] {\n    _id,\n    titulo,\n    slug,\n    contexto,\n    fecha,\n    fechaFinal,\n    descripcion,\n    tiposDeContexto,\n    imagen,\n    produccion,\n    tags,\n  }": CONTEXTOS_QUERY_RESULT;
+    "*[_type == \"contexto\"] {\n    _id,\n    titulo,\n    slug,\n    fecha,\n    fechaFinal,\n    tiposDeContexto,\n    produccion,\n    tags,\n  }": CONTEXTOS_QUERY_RESULT;
     "*[_type == \"tipoDeContexto\"] {\n    _id,\n    tipoDeContexto\n  }": TIPOS_DE_CONTEXTO_QUERY_RESULT;
+    "*[_type == \"contexto\" && slug.current == $slug][0] {\n    _id,\n    titulo,\n    slug,\n    fecha,\n    fechaFinal,\n    descripcion,\n    tiposDeContexto,\n    imagen,\n    produccion[]->{_id, nombre},\n    tags,\n  }": CONTEXTO_BY_SLUG_QUERY_RESULT;
     "*[_type == \"espacio\"] | order(nombre asc) {\n    _id,\n    nombre,\n    slug,\n  }": ESPACIOS_QUERY_RESULT;
     "*[_type == \"grupo\"] | order(nombre asc) {\n    _id,\n    nombre,\n    slug,\n    integrantes,\n    tipoDeGrupo\n  }": GRUPOS_QUERY_RESULT;
     "*[_type == \"infoGeneral\"][0]{\n    titulo,\n    destacados[]->{...},\n    descripcion,\n    contacto,\n    redesSociales,\n    configuracionDeTransmision,\n    nowPlaying,\n    mensajeGenericoDeTransmision,\n    schedule,\n  }": INFO_GENERAL_QUERY_RESULT;
     "*[_type == \"persona\"] | order(nombre asc) {\n    _id,\n    nombre,\n    slug,\n  }": PERSONAS_QUERY_RESULT;
-    "*[_type == \"programa\"] {\n    _id,\n    titulo,\n    slug,\n    contexto,\n    fecha,\n    descripcion,\n    descripcionCorta,\n    imagen,\n    coproduccion,\n    tags,\n  }": PROGRAMAS_QUERY_RESULT;
+    "*[_type == \"programa\"] {\n    _id,\n    titulo,\n    slug,\n    contexto,\n    fecha,\n    descripcionCorta,\n    coproduccion,\n    tags,\n  }": PROGRAMAS_QUERY_RESULT;
+    "*[_type == \"programa\" && slug.current == $slug][0] {\n    _id,\n    titulo,\n    slug,\n    contexto,\n    fecha,\n    descripcion,\n    descripcionCorta,\n    tiposDeContexto,\n    imagen,\n    coproduccion[]->{_id, nombre},\n    tags,\n  }": PROGRAMA_BY_SLUG_QUERY_RESULT;
     "*[_type == \"publicacion\"] | order(fecha desc){\n    _id,\n    titulo,\n    slug,\n    fecha,\n    tipo[]->{...},\n    serie,\n    descripcion,\n    recursos,\n    creditos,\n  }": PUBLICACIONES_QUERY_RESULT;
     "*[_type == \"tag\"]{\n    _id,\n    tag,\n  }": TAGS_QUERY_RESULT;
     "*[_type == \"transmision\"] | order(fecha desc){\n    _id,\n    titulo,\n    fecha,\n    tipoDeTransmision[]->{\n      _id,\n      tipoDeTransmision\n    },\n    programa->{\n      _id,\n      titulo},\n    contexto->{\n      _id,\n      titulo},\n    descripcionCorta,\n  }": TRANSMISIONES_QUERY_RESULT;
