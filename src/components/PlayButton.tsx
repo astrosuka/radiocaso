@@ -1,5 +1,6 @@
 "use client";
 
+import { PauseIcon, PlayIcon } from "@phosphor-icons/react";
 import { usePlayer } from "./PlayerProvider";
 
 export default function PlayButton({
@@ -28,7 +29,7 @@ export default function PlayButton({
       aria-label={isActive && isPlaying ? "Pausar" : "Reproducir"}
       className="shrink-0"
     >
-      {isActive && isPlaying ? "❚❚" : "▶"}
+      {isActive && isPlaying ? <PauseIcon /> : <PlayIcon />}
     </button>
   );
 }

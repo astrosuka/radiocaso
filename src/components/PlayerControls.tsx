@@ -1,5 +1,6 @@
 "use client";
 
+import { PauseIcon, PlayIcon } from "@phosphor-icons/react";
 import { usePlayer } from "./PlayerProvider";
 
 export default function PlayerControls({
@@ -12,11 +13,11 @@ export default function PlayerControls({
   return (
     <div className="bg-foreground text-background dark:bg-foreground/10 dark:text-foreground flex w-full items-center justify-start gap-2 px-6">
       <button
-        className="bg-foreground text-background flex size-6 items-center justify-center"
+        className="bg-foreground text-background flex size-8 cursor-pointer items-center justify-center"
         onClick={toggle}
         aria-label={isPlaying ? "Pausar" : "Reproducir"}
       >
-        {isPlaying ? "❚❚" : "▶"}
+        {isPlaying ? <PauseIcon /> : <PlayIcon />}
       </button>
 
       {current.type === "archive" && (
