@@ -3,6 +3,7 @@ import { Archivo, IBM_Plex_Sans_Condensed } from "next/font/google";
 import "./globals.css";
 import Navigation from "@/components/Navigation";
 import Player from "@/components/Player";
+import { PlayerProvider } from "@/components/PlayerProvider";
 
 const archivo = Archivo({
   variable: "--font-archivo",
@@ -35,12 +36,14 @@ export default function RootLayout({
         <div className="fixed top-0 right-0 left-0 flex h-28">
           <Navigation />
         </div>
-        <div className="fixed top-28 right-0 bottom-14 left-0 flex flex-col">
-          {children}
-        </div>
-        <div className="fixed right-0 bottom-0 left-0 flex h-14">
-          <Player />
-        </div>
+        <PlayerProvider>
+          <div className="fixed top-28 right-0 bottom-14 left-0 flex flex-col">
+            {children}
+          </div>
+          <div className="fixed right-0 bottom-0 left-0 flex h-14">
+            <Player />
+          </div>
+        </PlayerProvider>
       </body>
     </html>
   );

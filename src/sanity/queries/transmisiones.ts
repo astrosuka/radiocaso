@@ -18,6 +18,7 @@ const TRANSMISIONES_QUERY = defineQuery(
       _id,
       titulo},
     descripcionCorta,
+    audio,
   }`
 );
 
@@ -45,6 +46,7 @@ const ULTIMAS_TRANSMISIONES_QUERY = defineQuery(
       _id,
       titulo},
     descripcionCorta,
+    audio,
   }`
 );
 

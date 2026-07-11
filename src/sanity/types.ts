@@ -841,7 +841,7 @@ export type TAGS_QUERY_RESULT = Array<{
 
 // Source: ../radiocaso/src/sanity/queries/transmisiones.ts
 // Variable: TRANSMISIONES_QUERY
-// Query: *[_type == "transmision"] | order(fecha desc){    _id,    titulo,    fecha,    tipoDeTransmision[]->{      _id,      tipoDeTransmision    },    programa->{      _id,      titulo},    contexto->{      _id,      titulo},    descripcionCorta,  }
+// Query: *[_type == "transmision"] | order(fecha desc){    _id,    titulo,    fecha,    tipoDeTransmision[]->{      _id,      tipoDeTransmision    },    programa->{      _id,      titulo},    contexto->{      _id,      titulo},    descripcionCorta,    audio,  }
 export type TRANSMISIONES_QUERY_RESULT = Array<{
   _id: string;
   titulo: string | null;
@@ -859,11 +859,14 @@ export type TRANSMISIONES_QUERY_RESULT = Array<{
     titulo: string | null;
   } | null;
   descripcionCorta: string | null;
+  audio: {
+    url?: string;
+  } | null;
 }>;
 
 // Source: ../radiocaso/src/sanity/queries/transmisiones.ts
 // Variable: ULTIMAS_TRANSMISIONES_QUERY
-// Query: *[_type == "transmision"] | order(fecha desc)[0...10]{    _id,    titulo,    fecha,    tipoDeTransmision[]->{      _id,      tipoDeTransmision    },    programa->{      _id,      titulo},    contexto->{      _id,      titulo},    descripcionCorta,  }
+// Query: *[_type == "transmision"] | order(fecha desc)[0...10]{    _id,    titulo,    fecha,    tipoDeTransmision[]->{      _id,      tipoDeTransmision    },    programa->{      _id,      titulo},    contexto->{      _id,      titulo},    descripcionCorta,    audio,  }
 export type ULTIMAS_TRANSMISIONES_QUERY_RESULT = Array<{
   _id: string;
   titulo: string | null;
@@ -881,6 +884,9 @@ export type ULTIMAS_TRANSMISIONES_QUERY_RESULT = Array<{
     titulo: string | null;
   } | null;
   descripcionCorta: string | null;
+  audio: {
+    url?: string;
+  } | null;
 }>;
 
 // Source: ../radiocaso/src/sanity/queries/transmisiones.ts
@@ -906,8 +912,8 @@ declare module "@sanity/client" {
     "*[_type == \"programa\" && slug.current == $slug][0] {\n    _id,\n    titulo,\n    slug,\n    contexto,\n    fecha,\n    descripcion,\n    descripcionCorta,\n    tiposDeContexto,\n    imagen,\n    coproduccion[]->{_id, nombre},\n    tags,\n  }": PROGRAMA_BY_SLUG_QUERY_RESULT;
     "*[_type == \"publicacion\"] | order(fecha desc){\n    _id,\n    titulo,\n    slug,\n    fecha,\n    tipo[]->{...},\n    serie,\n    descripcion,\n    recursos,\n    creditos,\n  }": PUBLICACIONES_QUERY_RESULT;
     "*[_type == \"tag\"]{\n    _id,\n    tag,\n  }": TAGS_QUERY_RESULT;
-    "*[_type == \"transmision\"] | order(fecha desc){\n    _id,\n    titulo,\n    fecha,\n    tipoDeTransmision[]->{\n      _id,\n      tipoDeTransmision\n    },\n    programa->{\n      _id,\n      titulo},\n    contexto->{\n      _id,\n      titulo},\n    descripcionCorta,\n  }": TRANSMISIONES_QUERY_RESULT;
-    "*[_type == \"transmision\"] | order(fecha desc)[0...10]{\n    _id,\n    titulo,\n    fecha,\n    tipoDeTransmision[]->{\n      _id,\n      tipoDeTransmision\n    },\n    programa->{\n      _id,\n      titulo},\n    contexto->{\n      _id,\n      titulo},\n    descripcionCorta,\n  }": ULTIMAS_TRANSMISIONES_QUERY_RESULT;
+    "*[_type == \"transmision\"] | order(fecha desc){\n    _id,\n    titulo,\n    fecha,\n    tipoDeTransmision[]->{\n      _id,\n      tipoDeTransmision\n    },\n    programa->{\n      _id,\n      titulo},\n    contexto->{\n      _id,\n      titulo},\n    descripcionCorta,\n    audio,\n  }": TRANSMISIONES_QUERY_RESULT;
+    "*[_type == \"transmision\"] | order(fecha desc)[0...10]{\n    _id,\n    titulo,\n    fecha,\n    tipoDeTransmision[]->{\n      _id,\n      tipoDeTransmision\n    },\n    programa->{\n      _id,\n      titulo},\n    contexto->{\n      _id,\n      titulo},\n    descripcionCorta,\n    audio,\n  }": ULTIMAS_TRANSMISIONES_QUERY_RESULT;
     "*[_type == \"tipoDeTransmision\"] {\n    _id,\n    tipoDeTransmision\n  }": TIPOS_DE_TRANSMISION_QUERY_RESULT;
   }
 }
