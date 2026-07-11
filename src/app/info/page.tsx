@@ -7,12 +7,12 @@ export default async function Info() {
   return (
     <main className="flex flex-col gap-2">
       {data?.descripcion && (
-        <div className="max-w-prose">
+        <div className="max-w-prose p-6">
           <PortableText value={data.descripcion} />
         </div>
       )}
       {data?.contacto && (
-        <a href={`mailto:${data.contacto}`} className="font-mono underline">
+        <a href={`mailto:${data.contacto}`} className="p-6 font-mono underline">
           {data.contacto}
         </a>
       )}

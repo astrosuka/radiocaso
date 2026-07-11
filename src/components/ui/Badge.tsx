@@ -13,7 +13,7 @@ const variantStyles = {
 export default function Badge({ children, variant = "tag" }: Props) {
   return (
     <div
-      className={`font-ibm px-2 py-1 text-sm lowercase ${variantStyles[variant]}`}
+      className={`font-ibm px-2 py-1 text-xs lowercase ${variantStyles[variant]}`}
     >
       {children}
     </div>

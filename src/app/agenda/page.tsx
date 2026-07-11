@@ -4,7 +4,7 @@ export default async function Agenda() {
   const data = await getSchedule();
 
   return (
-    <main>
+    <main className="p-6">
       <ul>
         {data?.map((item) => {
           const startDate = new Date(item.start_date).toLocaleString("es");

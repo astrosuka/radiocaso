@@ -27,7 +27,7 @@ export default function PlayButton({
     <button
       onClick={handleClick}
       aria-label={isActive && isPlaying ? "Pausar" : "Reproducir"}
-      className="shrink-0"
+      className="shrink-0 cursor-pointer"
     >
       {isActive && isPlaying ? <PauseIcon /> : <PlayIcon />}
     </button>
