@@ -23,6 +23,7 @@ export default function TransmissionsListItem({
             <PlayButton
               url={transmission.audio.url}
               title={transmission.titulo ?? ""}
+              subtitle={transmission.programa?.titulo ?? ""}
             />
           )}
         </div>
