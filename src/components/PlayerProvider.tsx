@@ -20,13 +20,18 @@ type PlayerContextValue = {
 
 const PlayerContext = createContext<PlayerContextValue | null>(null);
 
+function isSupersededPlay(err: unknown) {
+  return err instanceof DOMException && err.name === "AbortError";
+}
+
 function loadAndPlay(audio: HTMLAudioElement | null, src: string) {
   if (!audio) return;
   audio.src = src;
   audio.load();
-  audio
-    .play()
-    .catch((err) => console.error("play failed:", err.name, err.message));
+  audio.play().catch((err) => {
+    if (isSupersededPlay(err)) return;
+    console.error("play failed:", err.name, err.message);
+  });
 }
 
 export function PlayerProvider({ children }: { children: React.ReactNode }) {
@@ -64,9 +69,10 @@ export function PlayerProvider({ children }: { children: React.ReactNode }) {
       audio.src = src;
       audio.load();
     }
-    audio
-      .play()
-      .catch((err) => console.error("play failed:", err.name, err.message));
+    audio.play().catch((err) => {
+      if (isSupersededPlay(err)) return;
+      console.error("play failed:", err.name, err.message);
+    });
   }
 
   return (
