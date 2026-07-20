@@ -1,4 +1,5 @@
 import type {
+  ARCHIVO_QUERY_RESULT,
   TRANSMISIONES_QUERY_RESULT,
   ULTIMAS_TRANSMISIONES_QUERY_RESULT,
 } from "@/sanity/types";
@@ -8,7 +9,8 @@ import PlayButton from "./PlayButton";
 
 type Transmission =
   | ULTIMAS_TRANSMISIONES_QUERY_RESULT[number]
-  | TRANSMISIONES_QUERY_RESULT[number];
+  | TRANSMISIONES_QUERY_RESULT[number]
+  | ARCHIVO_QUERY_RESULT["items"][number];
 
 export default function TransmissionsListItem({
   transmission,

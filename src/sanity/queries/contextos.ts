@@ -3,7 +3,11 @@ import { defineQuery } from "next-sanity";
 import { client } from "@/sanity/client";
 
 const CONTEXTOS_QUERY = defineQuery(
-  `*[_type == "contexto"] {
+  `*[
+    _type == "contexto"
+    && (!defined($q) || titulo match $q + "*")
+    && (count($tagIds) == 0 || count((tags[]->_id)[@ in $tagIds]) > 0)
+  ] {
     _id,
     titulo,
     slug,
@@ -11,16 +15,19 @@ const CONTEXTOS_QUERY = defineQuery(
     fechaFinal,
     tiposDeContexto,
     produccion,
-    tags,
+    tags[]->{_id, tag},
   }`
 );
 
-export async function getContextos() {
+export async function getContextos({
+  q,
+  tagIds,
+}: { q?: string; tagIds?: string[] } = {}) {
   "use cache";
-  cacheLife("max");
+  cacheLife("minutes");
   cacheTag("contexto");
   cacheTag("sanity");
-  return client.fetch(CONTEXTOS_QUERY);
+  return client.fetch(CONTEXTOS_QUERY, { q: q ?? null, tagIds: tagIds ?? [] });
 }
 
 const TIPOS_DE_CONTEXTO_QUERY = defineQuery(

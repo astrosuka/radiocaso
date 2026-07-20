@@ -3,7 +3,11 @@ import { defineQuery } from "next-sanity";
 import { client } from "@/sanity/client";
 
 const PROGRAMAS_QUERY = defineQuery(
-  `*[_type == "programa"] {
+  `*[
+    _type == "programa"
+    && (!defined($q) || titulo match $q + "*")
+    && (count($tagIds) == 0 || count((tags[]->_id)[@ in $tagIds]) > 0)
+  ] {
     _id,
     titulo,
     slug,
@@ -11,16 +15,19 @@ const PROGRAMAS_QUERY = defineQuery(
     fecha,
     descripcionCorta,
     coproduccion,
-    tags,
+    tags[]->{_id, tag},
   }`
 );
 
-export async function getProgramas() {
+export async function getProgramas({
+  q,
+  tagIds,
+}: { q?: string; tagIds?: string[] } = {}) {
   "use cache";
-  cacheLife("max");
+  cacheLife("minutes");
   cacheTag("programa");
   cacheTag("sanity");
-  return client.fetch(PROGRAMAS_QUERY);
+  return client.fetch(PROGRAMAS_QUERY, { q: q ?? null, tagIds: tagIds ?? [] });
 }
 
 const PROGRAMA_BY_SLUG_QUERY = defineQuery(

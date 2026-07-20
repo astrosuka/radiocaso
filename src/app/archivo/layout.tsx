@@ -1,3 +1,5 @@
+import { Suspense } from "react";
+import ArchivoSearchInput from "@/components/ArchivoSearchInput";
 import { getPersonas } from "@/sanity/queries/personas";
 import { getGrupos } from "@/sanity/queries/grupos";
 import { getEspacios } from "@/sanity/queries/espacios";
@@ -16,11 +18,9 @@ export default async function ArchivoLayout({
   return (
     <>
       <div className="flex w-full items-center justify-center border-b px-6 py-4">
-        <input
-          type="text"
-          placeholder="Buscar..."
-          className="bg-foreground/10 w-full border p-1"
-        />
+        <Suspense fallback={<div className="h-[calc(1lh+0.5rem+2px)] w-full" />}>
+          <ArchivoSearchInput />
+        </Suspense>
       </div>
       <div className="flex min-h-0 flex-1">
         <main className="flex flex-1 flex-col overflow-y-auto border-r">
