@@ -11,11 +11,15 @@ export default function ArchivoList({
   total,
   q,
   tagIds,
+  contextoId,
+  programaId,
 }: {
   initialItems: Item[];
   total: number;
   q?: string;
   tagIds: string[];
+  contextoId?: string;
+  programaId?: string;
 }) {
   const [items, setItems] = useState(initialItems);
   const [isPending, startTransition] = useTransition();
@@ -25,7 +29,13 @@ export default function ArchivoList({
     const cursor = items.at(-1)?.fecha;
     if (!cursor) return;
     startTransition(async () => {
-      const more = await loadMoreArchivo({ q, tagIds, cursor });
+      const more = await loadMoreArchivo({
+        q,
+        tagIds,
+        cursor,
+        contextoId,
+        programaId,
+      });
       setItems((prev) => [...prev, ...more.items]);
     });
   }

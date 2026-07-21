@@ -9,7 +9,8 @@ import {
 function buildTagHref(
   current: URLSearchParams,
   tagId: string,
-  isSelected: boolean
+  isSelected: boolean,
+  basePath: string
 ) {
   const params = new URLSearchParams(current);
   const next = isSelected
@@ -17,13 +18,15 @@ function buildTagHref(
     : [...params.getAll("tag"), tagId];
   params.delete("tag");
   next.forEach((id) => params.append("tag", id));
-  return `/archivo?${params.toString()}`;
+  return `${basePath}?${params.toString()}`;
 }
 
 export default async function ArchivoTags({
   searchParams,
+  basePath = "/archivo",
 }: {
   searchParams: Promise<ArchivoSearchParams>;
+  basePath?: string;
 }) {
   const params = await searchParams;
   const { tagIds } = parseArchivoSearchParams(params);
@@ -41,7 +44,10 @@ export default async function ArchivoTags({
       {tags.map((t) => {
         const isSelected = tagIds.includes(t._id);
         return (
-          <Link key={t._id} href={buildTagHref(current, t._id, isSelected)}>
+          <Link
+            key={t._id}
+            href={buildTagHref(current, t._id, isSelected, basePath)}
+          >
             <Badge variant={isSelected ? "tag-active" : "tag"}>{t.tag}</Badge>
           </Link>
         );

@@ -5,8 +5,20 @@ import { client } from "@/sanity/client";
 const ARCHIVO_QUERY = defineQuery(`{
   "items": *[
     _type == "transmision"
-    && (!defined($q) || titulo match $q + "*" || programa->titulo match $q + "*")
+    && (!defined($q) ||
+      titulo match $q + "*" ||
+      programa->titulo match $q + "*" ||
+      contexto->titulo match $q + "*" ||
+      programa->contexto->titulo match $q + "*" ||
+      espacio->nombre match $q + "*" ||
+      locacionGeografica.ciudad match $q + "*" ||
+      locacionGeografica.provincia match $q + "*" ||
+      locacionGeografica.pais match $q + "*" ||
+      count(((coalesce(coproduccion, []) + coalesce(invitadxs, []) + coalesce(conduccion, []) + coalesce(artistas, []) + coalesce(piezasIncluidasDe, []))[]->nombre)[@ match $q + "*"]) > 0
+    )
     && (count($tagIds) == 0 || count((tags[]->_id)[@ in $tagIds]) > 0)
+    && (!defined($contextoId) || contexto._ref == $contextoId || programa->contexto._ref == $contextoId)
+    && (!defined($programaId) || programa._ref == $programaId)
     && (!defined($cursor) || fecha < $cursor)
   ] | order(fecha desc) [0...$limit] {
     _id, titulo, fecha, audio,
@@ -16,8 +28,20 @@ const ARCHIVO_QUERY = defineQuery(`{
   },
   "total": count(*[
     _type == "transmision"
-    && (!defined($q) || titulo match $q + "*" || programa->titulo match $q + "*")
+    && (!defined($q) ||
+      titulo match $q + "*" ||
+      programa->titulo match $q + "*" ||
+      contexto->titulo match $q + "*" ||
+      programa->contexto->titulo match $q + "*" ||
+      espacio->nombre match $q + "*" ||
+      locacionGeografica.ciudad match $q + "*" ||
+      locacionGeografica.provincia match $q + "*" ||
+      locacionGeografica.pais match $q + "*" ||
+      count(((coalesce(coproduccion, []) + coalesce(invitadxs, []) + coalesce(conduccion, []) + coalesce(artistas, []) + coalesce(piezasIncluidasDe, []))[]->nombre)[@ match $q + "*"]) > 0
+    )
     && (count($tagIds) == 0 || count((tags[]->_id)[@ in $tagIds]) > 0)
+    && (!defined($contextoId) || contexto._ref == $contextoId || programa->contexto._ref == $contextoId)
+    && (!defined($programaId) || programa._ref == $programaId)
   ])
 }`);
 
@@ -26,11 +50,15 @@ export async function getArchivo({
   tagIds,
   cursor,
   limit = 30,
+  contextoId,
+  programaId,
 }: {
   q?: string;
   tagIds: string[];
   cursor?: string; // ISO date of the last item from the previous page
   limit?: number;
+  contextoId?: string;
+  programaId?: string;
 }) {
   "use cache";
   cacheLife("minutes");
@@ -41,6 +69,8 @@ export async function getArchivo({
     tagIds,
     cursor: cursor ?? null,
     limit,
+    contextoId: contextoId ?? null,
+    programaId: programaId ?? null,
   });
 }
 

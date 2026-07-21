@@ -24,7 +24,7 @@ export default function ArchivoSearchInput() {
     <input
       type="text"
       placeholder="Buscar..."
-      className="bg-foreground/10 w-full border p-1"
+      className="w-full px-6 py-2"
       value={value}
       onChange={(e) => setValue(e.target.value)}
     />
