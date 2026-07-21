@@ -33,11 +33,11 @@ export default function RootLayout({
       className={`${archivo.variable} ${ibmPlexSansCondensed.variable} h-full antialiased`}
     >
       <body className="flex h-dvh flex-col">
-        <div className="fixed top-0 right-0 left-0 flex h-28">
+        <div className="fixed top-0 right-0 left-0 flex h-16">
           <Navigation />
         </div>
         <PlayerProvider>
-          <div className="fixed top-28 right-0 bottom-14 left-0 flex flex-col">
+          <div className="fixed top-16 right-0 bottom-14 left-0 flex flex-col">
             {children}
           </div>
           <div className="fixed right-0 bottom-0 left-0 flex h-14">
