@@ -29,7 +29,11 @@ export default async function ArchivoTransmisiones({
 
       <section className="border-b px-6 py-6">
         <Suspense fallback={<div>Cargando…</div>}>
-          <ArchivoTags searchParams={searchParams} basePath={basePath} />
+          <ArchivoTags
+            searchParams={searchParams}
+            basePath={basePath}
+            filter={filter}
+          />
         </Suspense>
       </section>
 

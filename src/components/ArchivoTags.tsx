@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Badge from "@/components/ui/Badge";
-import { getTags } from "@/sanity/queries/tags";
+import { getTagsForArchivo } from "@/sanity/queries/tags";
 import {
   parseArchivoSearchParams,
   type ArchivoSearchParams,
@@ -24,9 +24,11 @@ function buildTagHref(
 export default async function ArchivoTags({
   searchParams,
   basePath = "/archivo",
+  filter,
 }: {
   searchParams: Promise<ArchivoSearchParams>;
   basePath?: string;
+  filter?: { contextoId?: string; programaId?: string };
 }) {
   const params = await searchParams;
   const { tagIds } = parseArchivoSearchParams(params);
@@ -37,7 +39,10 @@ export default async function ArchivoTags({
     )
   );
 
-  const tags = await getTags();
+  const tags = await getTagsForArchivo({
+    contextoId: filter?.contextoId,
+    programaId: filter?.programaId,
+  });
 
   return (
     <div className="flex flex-wrap gap-2">
