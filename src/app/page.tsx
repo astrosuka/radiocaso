@@ -1,4 +1,4 @@
-import TransmissionsListItem from "@/components/TransmissionsListItem";
+import TransmissionsList from "@/components/TransmissionsList";
 import Badge from "@/components/ui/Badge";
 import SectionHeader from "@/components/ui/SectionHeader";
 import SectionTitle from "@/components/ui/SectionTitle";
@@ -57,13 +57,7 @@ export default async function Home() {
           <SectionTitle>Transmisiones pasadas</SectionTitle>
           <SeeMoreButton link="/archivo">ver mas</SeeMoreButton>
         </SectionHeader>
-        <ul>
-          {transmisiones.map((t) => (
-            <li key={t._id}>
-              <TransmissionsListItem transmission={t} />
-            </li>
-          ))}
-        </ul>
+        <TransmissionsList items={transmisiones} />
       </section>
     </main>
   );

@@ -1,6 +1,6 @@
 "use client";
 import { useState, useTransition } from "react";
-import TransmissionsListItem from "@/components/TransmissionsListItem";
+import TransmissionsList from "@/components/TransmissionsList";
 import { loadMoreArchivo } from "@/app/archivo/actions";
 import type { ARCHIVO_QUERY_RESULT } from "@/sanity/types";
 import Button from "./ui/Button";
@@ -46,13 +46,7 @@ export default function ArchivoList({
 
   return (
     <>
-      <ul>
-        {items.map((t) => (
-          <li key={t._id}>
-            <TransmissionsListItem transmission={t} />
-          </li>
-        ))}
-      </ul>
+      <TransmissionsList items={items} />
       {hasMore && (
         <div className="my-6 flex w-full justify-center">
           <Button onClick={handleLoadMore} disabled={isPending}>

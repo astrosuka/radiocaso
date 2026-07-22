@@ -949,6 +949,86 @@ export type TIPOS_DE_TRANSMISION_FOR_ARCHIVO_QUERY_RESULT = Array<{
   tipoDeTransmision: string | null;
 }>;
 
+// Source: ../radiocaso/src/sanity/queries/transmisiones.ts
+// Variable: TRANSMISION_DETAIL_QUERY
+// Query: *[_type == "transmision" && _id == $id][0]{    descripcion,    link,    fechaFinal,    enVivo,    archiveId,    imagen{url},    locacionGeografica,    espacio->{_id, nombre},    contexto->{_id, titulo},    esEpisodio,    numeroDeEpisodio,    esParteDeUnaTemporada,    numeroDeTemporada,    coproduccion[]->{_id, nombre, _type},    invitadxs[]->{_id, nombre, _type},    conduccion[]->{_id, nombre, _type},    artistas[]->{_id, nombre, _type},    piezasIncluidasDe[]->{_id, nombre, _type}  }
+export type TRANSMISION_DETAIL_QUERY_RESULT = {
+  descripcion: BlockContent | null;
+  link: {
+    titulo?: string;
+    url?: string;
+    texto?: string;
+  } | null;
+  fechaFinal: string | null;
+  enVivo: boolean | null;
+  archiveId: string | null;
+  imagen: {
+    url: string | null;
+  } | null;
+  locacionGeografica: {
+    ciudad?: string;
+    provincia?: string;
+    pais?: string;
+  } | null;
+  espacio: {
+    _id: string;
+    nombre: string | null;
+  } | null;
+  contexto: {
+    _id: string;
+    titulo: string | null;
+  } | null;
+  esEpisodio: boolean | null;
+  numeroDeEpisodio: number | null;
+  esParteDeUnaTemporada: boolean | null;
+  numeroDeTemporada: number | null;
+  coproduccion: Array<{
+    _id: string;
+    nombre: string | null;
+    _type: "grupo";
+  } | {
+    _id: string;
+    nombre: string | null;
+    _type: "persona";
+  }> | null;
+  invitadxs: Array<{
+    _id: string;
+    nombre: string | null;
+    _type: "grupo";
+  } | {
+    _id: string;
+    nombre: string | null;
+    _type: "persona";
+  }> | null;
+  conduccion: Array<{
+    _id: string;
+    nombre: string | null;
+    _type: "grupo";
+  } | {
+    _id: string;
+    nombre: string | null;
+    _type: "persona";
+  }> | null;
+  artistas: Array<{
+    _id: string;
+    nombre: string | null;
+    _type: "grupo";
+  } | {
+    _id: string;
+    nombre: string | null;
+    _type: "persona";
+  }> | null;
+  piezasIncluidasDe: Array<{
+    _id: string;
+    nombre: string | null;
+    _type: "grupo";
+  } | {
+    _id: string;
+    nombre: string | null;
+    _type: "persona";
+  }> | null;
+} | null;
+
 // Query TypeMap
 import "@sanity/client";
 declare module "@sanity/client" {
@@ -970,6 +1050,7 @@ declare module "@sanity/client" {
     "*[_type == \"transmision\"] | order(fecha desc)[0...10]{\n    _id,\n    titulo,\n    fecha,\n    tipoDeTransmision[]->{\n      _id,\n      tipoDeTransmision\n    },\n    programa->{\n      _id,\n      titulo},\n    contexto->{\n      _id,\n      titulo},\n    descripcionCorta,\n    audio,\n  }": ULTIMAS_TRANSMISIONES_QUERY_RESULT;
     "*[_type == \"tipoDeTransmision\"] {\n    _id,\n    tipoDeTransmision\n  }": TIPOS_DE_TRANSMISION_QUERY_RESULT;
     "*[_type == \"tipoDeTransmision\" && _id in array::unique(*[\n    _type == \"transmision\"\n    && (!defined($contextoId) || contexto._ref == $contextoId || programa->contexto._ref == $contextoId)\n    && (!defined($programaId) || programa._ref == $programaId)\n  ].tipoDeTransmision[]->_id)]{\n    _id,\n    tipoDeTransmision,\n  }": TIPOS_DE_TRANSMISION_FOR_ARCHIVO_QUERY_RESULT;
+    "*[_type == \"transmision\" && _id == $id][0]{\n    descripcion,\n    link,\n    fechaFinal,\n    enVivo,\n    archiveId,\n    imagen{url},\n    locacionGeografica,\n    espacio->{_id, nombre},\n    contexto->{_id, titulo},\n    esEpisodio,\n    numeroDeEpisodio,\n    esParteDeUnaTemporada,\n    numeroDeTemporada,\n    coproduccion[]->{_id, nombre, _type},\n    invitadxs[]->{_id, nombre, _type},\n    conduccion[]->{_id, nombre, _type},\n    artistas[]->{_id, nombre, _type},\n    piezasIncluidasDe[]->{_id, nombre, _type}\n  }": TRANSMISION_DETAIL_QUERY_RESULT;
   }
 }
 

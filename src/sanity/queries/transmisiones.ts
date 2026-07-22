@@ -1,6 +1,7 @@
 import { cacheLife, cacheTag } from "next/cache";
 import { defineQuery } from "next-sanity";
 import { client } from "@/sanity/client";
+import type { TRANSMISION_DETAIL_QUERY_RESULT } from "@/sanity/types";
 
 const ARCHIVO_QUERY = defineQuery(`{
   "items": *[
@@ -169,7 +170,7 @@ export async function getTiposDeTransmisionForArchivo({
 }: {
   contextoId?: string;
   programaId?: string;
-}): Promise<{ _id: string; tipoDeTransmision: string | null }[]> {
+}) {
   "use cache";
   cacheLife("minutes");
   cacheTag("transmision");
@@ -179,4 +180,37 @@ export async function getTiposDeTransmisionForArchivo({
     contextoId: contextoId ?? null,
     programaId: programaId ?? null,
   });
+}
+
+const TRANSMISION_DETAIL_QUERY = defineQuery(
+  `*[_type == "transmision" && _id == $id][0]{
+    descripcion,
+    link,
+    fechaFinal,
+    enVivo,
+    archiveId,
+    imagen{url},
+    locacionGeografica,
+    espacio->{_id, nombre},
+    contexto->{_id, titulo},
+    esEpisodio,
+    numeroDeEpisodio,
+    esParteDeUnaTemporada,
+    numeroDeTemporada,
+    coproduccion[]->{_id, nombre, _type},
+    invitadxs[]->{_id, nombre, _type},
+    conduccion[]->{_id, nombre, _type},
+    artistas[]->{_id, nombre, _type},
+    piezasIncluidasDe[]->{_id, nombre, _type}
+  }`
+);
+
+export type TransmisionDetail = TRANSMISION_DETAIL_QUERY_RESULT;
+
+export async function getTransmisionDetail(id: string) {
+  "use cache";
+  cacheLife("minutes");
+  cacheTag("transmision");
+  cacheTag("sanity");
+  return client.fetch(TRANSMISION_DETAIL_QUERY, { id });
 }

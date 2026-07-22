@@ -34,7 +34,7 @@ export async function getTagsForArchivo({
 }: {
   contextoId?: string;
   programaId?: string;
-}): Promise<{ _id: string; tag: string | null }[]> {
+}) {
   "use cache";
   cacheLife("minutes");
   cacheTag("transmision");
