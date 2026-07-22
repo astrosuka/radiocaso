@@ -41,7 +41,7 @@ function buildDetailRows(detail: NonNullable<TransmisionDetail>): DetailRow[] {
     [
       detail.contexto?.titulo && {
         label: "Contexto",
-        node: <Badge variant="context">{detail.contexto.titulo}</Badge>,
+        node: detail.contexto.titulo,
       },
       detail.espacio?.nombre && {
         label: "Espacio",
