@@ -16,7 +16,7 @@ export default async function ArchivoTransmisiones({
 }) {
   return (
     <>
-      <div className="bg-foreground/10 flex w-full items-center justify-center border-b">
+      <div className="sticky top-0 flex w-full items-center justify-center border-b bg-gray-200">
         <Suspense
           fallback={<div className="h-[calc(1lh+0.5rem+2px)] w-full" />}
         >
