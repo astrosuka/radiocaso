@@ -27,7 +27,7 @@ export default function PlayButton({
     <button
       onClick={handleClick}
       aria-label={isActive && isPlaying ? "Pausar" : "Reproducir"}
-      className="shrink-0 cursor-pointer"
+      className="bg-foreground text-background shrink-0 cursor-pointer p-1 hover:invert"
     >
       {isActive && isPlaying ? <PauseIcon /> : <PlayIcon />}
     </button>
