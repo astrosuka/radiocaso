@@ -33,9 +33,8 @@ export default async function ArchivoTransmisiones({
         </Suspense>
       </section>
 
-      <section className="px-6 py-6">
-        <h2>Transmisiones</h2>
-        <ul className="flex flex-wrap gap-2 pb-6">
+      <section className="py-6">
+        <ul className="flex flex-wrap gap-2 px-6 pb-6">
           {tiposDeTransmision.map((t) => (
             <li key={t._id}>
               <Badge variant="transmission">{t.tipoDeTransmision}</Badge>

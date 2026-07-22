@@ -3,6 +3,7 @@ import { useState, useTransition } from "react";
 import TransmissionsListItem from "@/components/TransmissionsListItem";
 import { loadMoreArchivo } from "@/app/archivo/actions";
 import type { ARCHIVO_QUERY_RESULT } from "@/sanity/types";
+import Button from "./ui/Button";
 
 type Item = ARCHIVO_QUERY_RESULT["items"][number];
 
@@ -50,13 +51,11 @@ export default function ArchivoList({
         ))}
       </ul>
       {hasMore && (
-        <button
-          onClick={handleLoadMore}
-          disabled={isPending}
-          className="mx-auto my-6 block"
-        >
-          {isPending ? "Cargando…" : "Cargar más"}
-        </button>
+        <div className="my-6 flex w-full justify-center">
+          <Button onClick={handleLoadMore} disabled={isPending}>
+            {isPending ? "Cargando…" : "Cargar más"}
+          </Button>
+        </div>
       )}
     </>
   );

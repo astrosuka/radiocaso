@@ -37,7 +37,9 @@ export default function TransmissionsListItem({
       <span>{transmission.programa?.titulo}</span>
       <span className="flex w-full flex-wrap gap-1 md:justify-end">
         {transmission.tipoDeTransmision?.map((t) => (
-          <Badge key={t._id}>{t.tipoDeTransmision}</Badge>
+          <Badge key={t._id} variant="transmission">
+            {t.tipoDeTransmision}
+          </Badge>
         ))}
       </span>
     </div>
