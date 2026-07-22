@@ -21,7 +21,9 @@ export default async function Publicaciones() {
               <div className="flex gap-1">
                 {item?.tipo?.length
                   ? item.tipo.map((tipo) => (
-                      <Badge key={tipo._id}>{tipo.tipoDePublicacion}</Badge>
+                      <Badge key={tipo._id} variant="tipo">
+                        {tipo.tipoDePublicacion}
+                      </Badge>
                     ))
                   : "-"}
               </div>

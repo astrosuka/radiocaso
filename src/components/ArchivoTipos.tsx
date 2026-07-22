@@ -51,9 +51,7 @@ export default async function ArchivoTipos({
         return (
           <li key={t._id}>
             <Link href={buildTipoHref(current, t._id, isSelected, basePath)}>
-              <Badge
-                variant={isSelected ? "transmission-active" : "transmission"}
-              >
+              <Badge variant={isSelected ? "tipo-active" : "tipo"}>
                 {t.tipoDeTransmision}
               </Badge>
             </Link>

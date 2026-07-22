@@ -23,7 +23,7 @@ export default async function Home() {
               <span>{item.titulo}</span>
               <span className="ml-2 text-xs text-gray-500">{item.fecha}</span>
             </div>
-            <Badge>{item._type}</Badge>
+            <Badge variant="tipo">{item._type}</Badge>
           </div>
         ))}
       </section>
