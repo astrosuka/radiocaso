@@ -9,7 +9,7 @@ async function NowPlayingLoader() {
 }
 
 function NowPlayingSkeleton() {
-  return <div className="h-6 w-md rounded bg-gray-500/10"></div>;
+  return <div className="bg-gray h-6 w-md rounded"></div>;
 }
 
 export default function Player() {

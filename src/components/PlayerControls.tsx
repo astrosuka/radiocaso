@@ -12,18 +12,14 @@ export default function PlayerControls({
     usePlayer();
 
   return (
-    <div className="bg-foreground text-background dark:bg-foreground/10 dark:text-foreground flex w-full items-center justify-start gap-2 px-6">
+    <div className="flex w-full items-center justify-start gap-2 border-t px-6">
       <button
-        className="bg-foreground text-background flex size-8 cursor-pointer items-center justify-center"
+        className="flex size-8 cursor-pointer items-center justify-center"
         onClick={toggle}
         aria-label={isPlaying ? "Pausar" : "Reproducir"}
       >
         {isPlaying ? <PauseIcon /> : <PlayIcon />}
       </button>
-
-      {current.type === "archive" && (
-        <button onClick={playLive}>En vivo</button>
-      )}
 
       <div className="min-w-0 flex-1 truncate">
         {current.type === "live" ? (
@@ -36,6 +32,19 @@ export default function PlayerControls({
         )}
       </div>
 
+      {current.type === "archive" ? (
+        <button
+          onClick={playLive}
+          className="cursor-pointer border px-2 text-sm"
+        >
+          escuchar vivo
+        </button>
+      ) : (
+        <div className="mr-2 flex items-center gap-2 text-sm">
+          <span>en vivo</span>
+          <div className="size-2 animate-pulse rounded-full bg-red-500" />
+        </div>
+      )}
       <input
         type="range"
         min="0"
