@@ -36,7 +36,7 @@ export default async function ProgramaPage({
           ))}
         </h2>
         {programa.descripcion && (
-          <div className="max-w-prose">
+          <div>
             <PortableText value={programa.descripcion} />
           </div>
         )}

@@ -36,7 +36,7 @@ export default async function ContextoPage({
           ))}
         </h2>
         {contexto.descripcion && (
-          <div className="max-w-prose">
+          <div>
             <PortableText value={contexto.descripcion} />
           </div>
         )}
