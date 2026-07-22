@@ -2,7 +2,8 @@ import { ReactNode } from "react";
 
 interface Props {
   children: ReactNode;
-  variant?: "tag" | "tag-active" | "context" | "transmission";
+  variant?:
+    "tag" | "tag-active" | "context" | "transmission" | "transmission-active";
 }
 
 const variantStyles = {
@@ -10,6 +11,8 @@ const variantStyles = {
   "tag-active": "bg-foreground text-background rounded-2xl",
   context: "bg-foreground/70 text-background rounded-2xl",
   transmission: "bg-background text-foreground border border-foreground/60",
+  "transmission-active":
+    "bg-foreground text-background border border-foreground/60",
 };
 export default function Badge({ children, variant = "tag" }: Props) {
   return (

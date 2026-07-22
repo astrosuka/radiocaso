@@ -17,6 +17,7 @@ const ARCHIVO_QUERY = defineQuery(`{
       count(((coalesce(coproduccion, []) + coalesce(invitadxs, []) + coalesce(conduccion, []) + coalesce(artistas, []) + coalesce(piezasIncluidasDe, []))[]->nombre)[@ match $q + "*"]) > 0
     )
     && (count($tagIds) == 0 || count((tags[]->_id)[@ in $tagIds]) > 0)
+    && (count($tipoIds) == 0 || count((tipoDeTransmision[]->_id)[@ in $tipoIds]) > 0)
     && (!defined($contextoId) || contexto._ref == $contextoId || programa->contexto._ref == $contextoId)
     && (!defined($programaId) || programa._ref == $programaId)
     && (!defined($cursor) || fecha < $cursor)
@@ -40,6 +41,7 @@ const ARCHIVO_QUERY = defineQuery(`{
       count(((coalesce(coproduccion, []) + coalesce(invitadxs, []) + coalesce(conduccion, []) + coalesce(artistas, []) + coalesce(piezasIncluidasDe, []))[]->nombre)[@ match $q + "*"]) > 0
     )
     && (count($tagIds) == 0 || count((tags[]->_id)[@ in $tagIds]) > 0)
+    && (count($tipoIds) == 0 || count((tipoDeTransmision[]->_id)[@ in $tipoIds]) > 0)
     && (!defined($contextoId) || contexto._ref == $contextoId || programa->contexto._ref == $contextoId)
     && (!defined($programaId) || programa._ref == $programaId)
   ])
@@ -48,6 +50,7 @@ const ARCHIVO_QUERY = defineQuery(`{
 export async function getArchivo({
   q,
   tagIds,
+  tipoIds,
   cursor,
   limit = 30,
   contextoId,
@@ -55,6 +58,7 @@ export async function getArchivo({
 }: {
   q?: string;
   tagIds: string[];
+  tipoIds: string[];
   cursor?: string; // ISO date of the last item from the previous page
   limit?: number;
   contextoId?: string;
@@ -67,6 +71,7 @@ export async function getArchivo({
   return client.fetch(ARCHIVO_QUERY, {
     q: q ?? null,
     tagIds,
+    tipoIds,
     cursor: cursor ?? null,
     limit,
     contextoId: contextoId ?? null,
@@ -145,4 +150,33 @@ export async function getTiposDeTransmision() {
   cacheTag("tipoDeTransmision");
   cacheTag("sanity");
   return client.fetch(TIPOS_DE_TRANSMISION_QUERY);
+}
+
+const TIPOS_DE_TRANSMISION_FOR_ARCHIVO_QUERY = defineQuery(
+  `*[_type == "tipoDeTransmision" && _id in array::unique(*[
+    _type == "transmision"
+    && (!defined($contextoId) || contexto._ref == $contextoId || programa->contexto._ref == $contextoId)
+    && (!defined($programaId) || programa._ref == $programaId)
+  ].tipoDeTransmision[]->_id)]{
+    _id,
+    tipoDeTransmision,
+  }`
+);
+
+export async function getTiposDeTransmisionForArchivo({
+  contextoId,
+  programaId,
+}: {
+  contextoId?: string;
+  programaId?: string;
+}): Promise<{ _id: string; tipoDeTransmision: string | null }[]> {
+  "use cache";
+  cacheLife("minutes");
+  cacheTag("transmision");
+  cacheTag("tipoDeTransmision");
+  cacheTag("sanity");
+  return client.fetch(TIPOS_DE_TRANSMISION_FOR_ARCHIVO_QUERY, {
+    contextoId: contextoId ?? null,
+    programaId: programaId ?? null,
+  });
 }

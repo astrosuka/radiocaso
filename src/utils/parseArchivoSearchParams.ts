@@ -1,11 +1,16 @@
-export type ArchivoSearchParams = { tag?: string | string[]; q?: string };
+export type ArchivoSearchParams = {
+  tag?: string | string[];
+  tipo?: string | string[];
+  q?: string;
+};
+
+function toIds(value?: string | string[]) {
+  return value ? (Array.isArray(value) ? value : [value]) : [];
+}
 
 export function parseArchivoSearchParams(params: ArchivoSearchParams) {
-  const tagIds = params.tag
-    ? Array.isArray(params.tag)
-      ? params.tag
-      : [params.tag]
-    : [];
+  const tagIds = toIds(params.tag);
+  const tipoIds = toIds(params.tipo);
   const q = params.q?.trim() || undefined;
-  return { q, tagIds };
+  return { q, tagIds, tipoIds };
 }

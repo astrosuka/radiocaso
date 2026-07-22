@@ -2,8 +2,7 @@ import { Suspense } from "react";
 import ArchivoResults from "@/components/ArchivoResults";
 import ArchivoSearchInput from "@/components/ArchivoSearchInput";
 import ArchivoTags from "@/components/ArchivoTags";
-import Badge from "@/components/ui/Badge";
-import { getTiposDeTransmision } from "@/sanity/queries/transmisiones";
+import ArchivoTipos from "@/components/ArchivoTipos";
 import type { ArchivoSearchParams } from "@/utils/parseArchivoSearchParams";
 
 export default async function ArchivoTransmisiones({
@@ -15,8 +14,6 @@ export default async function ArchivoTransmisiones({
   basePath?: string;
   filter?: { contextoId?: string; programaId?: string };
 }) {
-  const tiposDeTransmision = await getTiposDeTransmision();
-
   return (
     <>
       <div className="bg-foreground/10 flex w-full items-center justify-center border-b">
@@ -38,13 +35,13 @@ export default async function ArchivoTransmisiones({
       </section>
 
       <section className="py-6">
-        <ul className="flex flex-wrap gap-2 px-6 pb-6">
-          {tiposDeTransmision.map((t) => (
-            <li key={t._id}>
-              <Badge variant="transmission">{t.tipoDeTransmision}</Badge>
-            </li>
-          ))}
-        </ul>
+        <Suspense fallback={<div className="px-6 pb-6">Cargando…</div>}>
+          <ArchivoTipos
+            searchParams={searchParams}
+            basePath={basePath}
+            filter={filter}
+          />
+        </Suspense>
 
         <Suspense fallback={<div className="px-6">Cargando…</div>}>
           <ArchivoResults searchParams={searchParams} filter={filter} />

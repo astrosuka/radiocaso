@@ -12,6 +12,7 @@ export default function ArchivoList({
   total,
   q,
   tagIds,
+  tipoIds,
   contextoId,
   programaId,
 }: {
@@ -19,6 +20,7 @@ export default function ArchivoList({
   total: number;
   q?: string;
   tagIds: string[];
+  tipoIds: string[];
   contextoId?: string;
   programaId?: string;
 }) {
@@ -33,6 +35,7 @@ export default function ArchivoList({
       const more = await loadMoreArchivo({
         q,
         tagIds,
+        tipoIds,
         cursor,
         contextoId,
         programaId,
