@@ -16,6 +16,7 @@ type PlayerContextValue = {
     track: Omit<Extract<Track, { type: "archive" }>, "type">
   ) => void;
   toggle: () => void;
+  handleVolumeChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
 const PlayerContext = createContext<PlayerContextValue | null>(null);
@@ -51,6 +52,12 @@ export function PlayerProvider({ children }: { children: React.ReactNode }) {
     loadAndPlay(audioRef.current, toDirectArchiveUrl(track.url));
   }
 
+  function handleVolumeChange(event: React.ChangeEvent<HTMLInputElement>) {
+    if (audioRef.current) {
+      audioRef.current.volume = parseFloat(event.target.value);
+    }
+  }
+
   function toggle() {
     const audio = audioRef.current;
     if (!audio) return;
@@ -77,7 +84,15 @@ export function PlayerProvider({ children }: { children: React.ReactNode }) {
 
   return (
     <PlayerContext.Provider
-      value={{ current, isPlaying, audioRef, playLive, playArchive, toggle }}
+      value={{
+        current,
+        isPlaying,
+        audioRef,
+        playLive,
+        playArchive,
+        toggle,
+        handleVolumeChange,
+      }}
     >
       <audio
         ref={audioRef}

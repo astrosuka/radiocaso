@@ -8,7 +8,8 @@ export default function PlayerControls({
 }: {
   livelabel: React.ReactNode;
 }) {
-  const { current, isPlaying, playLive, toggle } = usePlayer();
+  const { current, isPlaying, playLive, toggle, handleVolumeChange } =
+    usePlayer();
 
   return (
     <div className="bg-foreground text-background dark:bg-foreground/10 dark:text-foreground flex w-full items-center justify-start gap-2 px-6">
@@ -34,6 +35,16 @@ export default function PlayerControls({
           </span>
         )}
       </div>
+
+      <input
+        type="range"
+        min="0"
+        max="1"
+        step="0.01"
+        defaultValue="1"
+        className="ml-auto h-0.5 w-35 cursor-pointer appearance-auto rounded bg-white accent-white"
+        onChange={handleVolumeChange}
+      />
     </div>
   );
 }
