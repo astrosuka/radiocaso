@@ -14,7 +14,7 @@ export default function NowPlaying({
 
   useEffect(() => {
     const interval = setInterval(async () => {
-      const response = await fetch("api/now-playing", { cache: "no-store" });
+      const response = await fetch("/api/now-playing", { cache: "no-store" });
       if (response.ok) {
         setNowPlaying(await response.json());
       }
